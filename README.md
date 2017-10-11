@@ -1,4 +1,4 @@
-# Socket IO With HAProxy And Kong Blue/Green
+# Socket IO With HAProxy And Redis
 
 I've made some tests and for me it was proven as a possible solution to high scalable environments under high load.
 
@@ -49,6 +49,6 @@ Now we can create a little shortcut inside our SO to send requests through the c
 After these steps, we can open the browser and access the following addresses to chat:
 
 ```
-http://node-services-1.com/rooma
-http://node-services-1.com/roomb
+http://node-services-1.com/front/rooma
+http://node-services-1.com/front/roomb
 ```
