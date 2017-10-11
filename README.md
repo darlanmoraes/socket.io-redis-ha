@@ -23,7 +23,7 @@ The following topics are tested:
 # Architecture
 The following diagram shows how the infraestructure was built. Everything can be found inside the file ```docker-compose.yml```.
 
-![alt tag](Socket%20IO.png)
+![alt tag](Socket_IO_HA.png)
 
 # How Can I Run?
 Please follow the next steps to get it working. First of all, be sure that you have all the requirements:
