@@ -1,5 +1,5 @@
 {
-  "name": "socket.io-haproxy-kong",
+  "name": "socket.io-redis-ha",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,18 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/darlanmoraes/socket.io-haproxy-kong.git"
+    "url": "git+https://github.com/darlanmoraes/socket.io-redis-ha.git"
   },
   "author": "Darlan de Moraes Silveira",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/darlanmoraes/socket.io-haproxy-kong/issues"
+    "url": "https://github.com/darlanmoraes/socket.io-redis-ha/issues"
   },
-  "homepage": "https://github.com/darlanmoraes/socket.io-haproxy-kong#readme",
+  "homepage": "https://github.com/darlanmoraes/socket.io-redis-ha#readme",
   "dependencies": {
     "express": "^4.16.1",
     "jshint": "^2.9.5",
-    "mongoose": "^4.12.0",
     "body-parser": "^1.18.2",
     "socket.io": "^2.0.3",
     "socket.io-client": "^2.0.3",
