@@ -50,6 +50,8 @@ After these steps, we can open the browser and access the following addresses to
 ```
 http://node-services-1.com/front/rooma
 http://node-services-1.com/front/roomb
+http://node-services-2.com/front/rooma
+http://node-services-2.com/front/roomb
 ```
 
 The following will send a message through the backend that has no open sockets. This should send the message to all open sockets with frontend.
