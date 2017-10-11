@@ -18,6 +18,7 @@ The following topics are tested:
 * It's possible to use as many frontend's as we want(with source balancing);
 * It's possible to emit events from backend and, if the frontend has a socket open with an browser, it will work;
 * It's possible to use simple acl's with HAProxy to separate service-a from service-b;
+* It's possible to use as many processors on each Node.JS instance as you want;
 
 # Architecture
 The following diagram shows how the infraestructure was built. Everything can be found inside the file ```docker-compose.yml```.
