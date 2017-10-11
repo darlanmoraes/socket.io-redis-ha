@@ -41,6 +41,14 @@ router.post('/message', (req, res) => {
     });
 });
 
+router.get('/messages', (req, res) => {
+  Message.find({})
+    .exec((err, documents) => {
+      res.status(200)
+        .send(documents);
+    });
+});
+
 router.get('/status', (req, res) => {
   res.sendStatus(200);
 });

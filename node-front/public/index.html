@@ -58,7 +58,7 @@
           });
         }
       };
-      xhttp.open('GET', '/front/messages', true);
+      xhttp.open('GET', '/back/messages', true);
       xhttp.setRequestHeader('Accept', 'application/json');
       xhttp.send(); 
     })();
@@ -84,12 +84,10 @@
 
     function sendMessage(message) {
       if (message && message !== '') {
-        var data = { room: room, message: message };
         var xhttp = new XMLHttpRequest();
-        xhttp.open('POST', '/front/message', true);
+        xhttp.open('POST', '/back/message', true);
         xhttp.setRequestHeader('Content-type', 'application/json');
-        xhttp.send(JSON.stringify(data));
-        showMessage(data, '#ddd');
+        xhttp.send(JSON.stringify({ room: room, message: message }));
       }
     }
 
