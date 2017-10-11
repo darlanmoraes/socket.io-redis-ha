@@ -1,0 +1,133 @@
+version: '2.1'
+services:
+  haproxy:
+    image: haproxy:1.7
+    mem_limit: "1024m"
+    ports:
+      - "80:80"
+    expose:
+      - "80"
+    volumes:
+      - ./haproxy:/usr/local/etc/haproxy
+    links:
+      - node-front-1
+      - node-front-2
+      - node-back-1
+      - node-back-2
+      - node-other-1
+      - node-other-2
+    depends_on: 
+      node-front-1:
+        condition: service_healthy
+      node-front-2:
+        condition: service_healthy
+      node-back-1:
+        condition: service_healthy
+      node-back-2:
+        condition: service_healthy
+      node-other-1:
+        condition: service_healthy
+      node-other-2:
+        condition: service_healthy
+  node-front-1:
+    build: ./node-front
+    mem_limit: 512m
+    links: 
+      - mongo
+      - redis
+    depends_on: 
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "wget http://localhost:3000/front/status -O /dev/null || exit 1" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+  node-front-2:
+    build: ./node-front
+    mem_limit: 512m
+    links: 
+      - mongo
+      - redis
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "wget http://localhost:3000/front/status -O /dev/null || exit 1" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+  node-back-1:
+    build: ./node-back
+    mem_limit: 512m
+    links: 
+      - mongo
+      - redis
+    depends_on: 
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "wget http://localhost:3000/back/status -O /dev/null || exit 1" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+  node-back-2:
+    build: ./node-back
+    mem_limit: 512m
+    links: 
+      - mongo
+      - redis
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "wget http://localhost:3000/back/status -O /dev/null || exit 1" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+  node-other-1:
+    build: ./node-other
+    mem_limit: 512m
+    depends_on: 
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "wget http://localhost:3000/other/status -O /dev/null || exit 1" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+  node-other-2:
+    build: ./node-other
+    mem_limit: 512m
+    depends_on:
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD-SHELL", "wget http://localhost:3000/other/status -O /dev/null || exit 1" ]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+  mongo:
+    image: "healthcheck/mongo"
+    mem_limit: 1024m
+    healthcheck:
+      interval: 1s
+      retries: 10
+  redis:
+    image: "healthcheck/redis"
+    mem_limit: 1024m
+    healthcheck:
+      interval: 1s
+      retries: 10

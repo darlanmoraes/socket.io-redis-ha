@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+<script src="/front/socket.io/socket.io.js"></script>
+<link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+</head>
+<body>
+
+<ul id="messages" style="padding: 0 10%;">
+
+</ul>
+
+<div style="padding: 0 10%;">
+  <textarea id="data"
+            style="width: 89%;
+                   float: left;
+                   height: 46px;
+                   margin: 0 1% 0 0;
+                   padding: 0;
+                   box-sizing: border-box;
+                   -moz-box-sizing: border-box;
+                   -webkit-box-sizing: border-box;
+                   padding: 13px;"></textarea>
+  <button id="send" 
+          style="float: left;
+                 width: 10%;
+                 height: 46px;">send</button>
+</div>
+
+<script type="text/javascript">
+  window.onload = function() {
+    var room = location.pathname.split('/').pop();
+    document.title = room.toUpperCase();
+
+    var socket = io('http://' + window.location.hostname, { path: '/front/socket.io' });
+
+    socket.on('connect', function() {
+      socket.emit('room', room);
+    });
+
+    socket.on('message', function(data) {
+      const message = JSON.parse(data);
+      showMessage(message, message.room === room ? '#ddd' : '#bbb');
+    });
+
+    socket.on('disconnect', function() {
+      console.log('disconnect');
+    });
+
+    (function(){
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+          const messages = JSON.parse(this.responseText);
+          messages.forEach(function(message) {
+            showMessage(message, message.room === room ? '#ddd' : '#bbb');
+          });
+        }
+      };
+      xhttp.open('GET', '/front/messages', true);
+      xhttp.setRequestHeader('Accept', 'application/json');
+      xhttp.send(); 
+    })();
+
+    var send = document.getElementById('send');
+    var data = document.getElementById('data');
+
+    send.onclick = function(e) {
+      var message = data.value;
+      sendMessage(message);
+      data.value = '';
+    }
+
+    function showMessage(message, background) {
+      var node = document.createElement('li');
+      node.style.listStyle = 'none';
+      node.style.background = background;
+      node.style.padding = '15px';
+      var textnode = document.createTextNode(message.room + ' > ' + message.message);
+      node.appendChild(textnode);
+      document.getElementById('messages').appendChild(node); 
+    }
+
+    function sendMessage(message) {
+      if (message && message !== '') {
+        var data = { room: room, message: message };
+        var xhttp = new XMLHttpRequest();
+        xhttp.open('POST', '/front/message', true);
+        xhttp.setRequestHeader('Content-type', 'application/json');
+        xhttp.send(JSON.stringify(data));
+        showMessage(data, '#ddd');
+      }
+    }
+
+  }
+</script>
+</body>
+</html>
